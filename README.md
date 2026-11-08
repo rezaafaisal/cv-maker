@@ -1,83 +1,94 @@
 # CV Maker
 
-Generator CV lokal: isi data lewat form web, pilih template, lalu download PDF yang rapi dan siap kirim.
-Semua data tersimpan di SQLite, jadi CV bisa di-update dan di-generate ulang kapan saja.
+A local CV generator: fill in your data through a web form, pick a template, and download a clean,
+ready-to-send PDF. Everything is stored in SQLite, so a CV can be updated and regenerated at any time.
 
-- **2 template**
-  - **ATS**: satu kolom, tanpa foto/ikon/tabel, sehingga teksnya terbaca bersih oleh sistem ATS.
-  - **Modern**: sidebar berwarna, foto bulat, dan data diri.
-- **Bahasa CV**: Indonesia / English. Judul section, nama bulan, dan "Sekarang/Present" otomatis berganti.
-- **Section**: Ringkasan, Pengalaman Kerja, Proyek, Pendidikan, Keahlian, Sertifikasi, Organisasi,
-  Penghargaan, Bahasa, Referensi, plus **section kustom** dengan judul bebas.
-  Setiap section bisa disembunyikan, diurutkan ulang, dan diganti judulnya. Section yang kosong tidak ikut dicetak.
-- **Info tambahan** di header (mis. Visa, Ketersediaan, SIM) dan **Data Diri** (khusus template Modern).
-- **Autosave + live preview**, **riwayat versi** (snapshot otomatis setiap download PDF, bisa
-  download ulang atau dipulihkan), **duplikat CV**, dan **import/export JSON** (foto ikut ter-export).
+- **2 templates**
+  - **ATS**: single column, no photo, icons, or tables, so the text is read cleanly by applicant tracking systems.
+  - **Modern**: colored sidebar, round photo, and personal details.
+- **CV language**: Indonesian / English. Section titles, month names, and "Sekarang/Present" switch automatically.
+- **Sections**: Summary, Work Experience, Projects, Education, Skills, Certifications, Organizations,
+  Awards, Languages, References, plus **custom sections** with any title.
+  Every section can be hidden, reordered, and renamed. Empty sections are not printed.
+- **Extra info** in the header (e.g. Visa, Availability, Driver's license) and **Personal Details**
+  (Modern template only).
+- **Autosave + live preview**, **version history** (an automatic snapshot on every PDF download that
+  can be re-downloaded or restored), **duplicate CV**, and **JSON import/export** (the photo is exported too).
+
+> The web UI itself is in Indonesian. Button and field names below are given as they appear in the UI,
+> with an English gloss.
 
 ## Stack
 
-Python 3.11 · Flask · SQLite (`sqlite3` bawaan) · WeasyPrint (HTML/CSS → PDF) · Pillow (crop foto).
-Tanpa Node atau build step. Frontend memakai vanilla JS.
+Python 3.11 · Flask · SQLite (built-in `sqlite3`) · WeasyPrint (HTML/CSS → PDF) · Pillow (photo cropping).
+No Node and no build step. The frontend is vanilla JS.
 
-## Instalasi (sekali saja)
+## Installation (one time)
 
 ```bash
-conda env create -f environment.yml      # membuat env "cv-maker" (Python 3.11)
+conda env create -f environment.yml      # creates the "cv-maker" env (Python 3.11)
 ```
 
-## Menjalankan
+## Running
 
 ```bash
 conda activate cv-maker
-python main.py                # buka http://127.0.0.1:5055 (browser terbuka otomatis)
-python main.py --port 8000    # port lain
+python main.py                # opens http://127.0.0.1:5055 (browser opens automatically)
+python main.py --port 8000    # different port
 python main.py --no-browser
 ```
 
-## Alur membuat CV baru
+Restart the server after pulling code changes. (Templates reload automatically, but Python code does not.)
 
-1. Di halaman utama → **Buat CV Baru**: isi nama, label (mis. `Budi - Lamaran Backend`), template, dan bahasa.
-2. Di editor (kiri form, kanan preview):
-   - **Pengaturan CV**: template, bahasa, warna aksen, foto.
-   - **Data Utama**: nama, headline, kontak.
-   - **Info Tambahan / Data Diri**: opsional.
-   - **Section CV**: klik judul untuk membuka, lalu **+ Tambah entri**.
-     - Tanggal: tulis `2024-04` (otomatis jadi "Apr 2024") atau tahun saja `2019`.
-       Centang *Masih berlangsung* untuk "Sekarang/Present".
-     - Poin-poin: **1 baris = 1 poin**.
-3. Data tersimpan otomatis. Tekan `Cmd+S` untuk menyimpan sekarang.
-4. **Preview PDF** untuk mengecek pemisahan halaman, lalu **Download PDF**.
-   Salinan PDF juga disimpan ke folder `output/`.
+## Creating a new CV
 
-Untuk teman lain atau lamaran lain: pakai **Duplikat** lalu ubah seperlunya, tidak perlu mengetik ulang.
-Untuk mencoba cepat: **Import** file `examples/contoh-cv.json`.
+1. On the home page, use **Buat CV Baru** (Create New CV): enter the name, a label (e.g. `Budi - Backend Application`),
+   the template, and the language.
+2. In the editor (form on the left, preview on the right):
+   - **Pengaturan CV** (CV settings): template, language, accent color, photo.
+   - **Data Utama** (main data): name, headline, contacts.
+   - **Info Tambahan** (extra info) / **Data Diri** (personal details): optional.
+   - **Section CV**: click a title to open it, then **+ Tambah entri** (add entry).
+     - Dates: write `2024-04` (rendered as "Apr 2024") or just a year such as `2019`.
+       Tick *Masih berlangsung* (still ongoing) to show "Sekarang/Present".
+     - Bullet points: **1 line = 1 bullet**.
+3. Data is saved automatically. Press `Cmd+S` to save immediately.
+4. Use **Preview PDF** to check the page breaks, then **Download PDF**.
+   A copy of the PDF is also saved to the `output/` folder.
+5. **Simpan & CV Baru** (Save & New CV) saves the current CV and jumps straight to the new-CV form.
 
-## Lokasi data
+For another friend or another job application: use **Duplikat** (Duplicate) and adjust what you need, with no retyping.
+To try it out quickly: **Import** the file `examples/contoh-cv.json`.
 
-| Path | Isi |
+## Data locations
+
+| Path | Contents |
 |---|---|
-| `data/cv.db` | Database SQLite (tabel `cvs` + `cv_versions`) |
-| `data/photos/` | Foto (sudah di-crop 600×600 JPEG) |
-| `output/` | Salinan PDF yang di-download |
+| `data/cv.db` | SQLite database (tables `cvs` + `cv_versions`) |
+| `data/photos/` | Photos (already cropped to 600×600 JPEG) |
+| `output/` | Copies of downloaded PDFs |
 
-Backup cukup dengan menyalin folder `data/`, atau pakai **Export JSON** per CV.
-Lokasi folder bisa diganti lewat env `CVMAKER_DATA` dan `CVMAKER_OUTPUT`.
+To back up, copy the `data/` folder, or use **Export JSON** on each CV.
+The folder locations can be changed with the `CVMAKER_DATA` and `CVMAKER_OUTPUT` environment variables.
 
-## Struktur kode
+## Code structure
 
 ```
-main.py                     entry point (argparse + buka browser)
-cvmaker/app.py              route Flask
-cvmaker/db.py               skema & query SQLite
-cvmaker/sections.py         definisi section, field, label ID/EN, format tanggal
+main.py                     entry point (argparse + opens the browser)
+cvmaker/app.py              Flask routes
+cvmaker/db.py               SQLite schema & queries
+cvmaker/sections.py         section/field definitions, ID/EN labels, date formatting
 cvmaker/render.py           data → HTML (Jinja) → PDF (WeasyPrint)
-cvmaker/templates/cv/       template CV: ats.html, modern.html  ← ubah desain di sini
-cvmaker/templates/ui/       halaman web app
-cvmaker/static/             CSS & JS editor
+cvmaker/templates/cv/       CV templates: ats.html, modern.html  ← edit the design here
+cvmaker/templates/ui/       web app pages
+cvmaker/static/             editor CSS & JS
 ```
 
-**Menambah template baru**: buat `cvmaker/templates/cv/<nama>.html`
-(variabel konteksnya bisa dilihat di `build_context` pada `render.py`), lalu tambahkan `<nama>` ke
-`TEMPLATES` di `sections.py` dan ke tombol pilihan di `static/editor.js`.
+**Adding a new template**: create `cvmaker/templates/cv/<name>.html`
+(the context variables are listed in `build_context` in `render.py`), then add `<name>` to
+`TEMPLATES` in `sections.py` and to the selector buttons in `static/editor.js`.
 
-**Menambah section bawaan baru**: tambahkan ke `SECTION_DEFS` dan `DEFAULT_ORDER` di `sections.py`.
+**Adding a new built-in section**: add it to `SECTION_DEFS` and `DEFAULT_ORDER` in `sections.py`.
+
+**PDF viewer note**: some mobile PDF viewers render CSS gradients and page backgrounds incorrectly.
+The Modern template therefore draws its sidebar as a solid fixed box instead. Keep that approach if you edit the design.

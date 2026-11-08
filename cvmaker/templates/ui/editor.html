@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}{{ cv.name }} · CV Maker{% endblock %}
+{% block body_class %}editor-page{% endblock %}
+{% block topbar %}
+  <span id="save-status" class="muted small">Tersimpan</span>
+  <a class="btn sm" href="{{ url_for('versions', cv_id=cv.id) }}">Riwayat ({{ versions }})</a>
+  <a class="btn sm" href="{{ url_for('export', cv_id=cv.id) }}">Export JSON</a>
+  <form method="post" action="{{ url_for('duplicate', cv_id=cv.id) }}"><button class="btn sm">Duplikat</button></form>
+  <a class="btn sm" target="_blank" id="btn-preview-pdf" href="{{ url_for('preview_pdf', cv_id=cv.id) }}">Preview PDF</a>
+  <a class="btn" id="btn-exit" href="{{ url_for('index') }}#buat-baru" title="Simpan CV ini lalu langsung buat CV baru">Simpan &amp; CV Baru</a>
+  <a class="btn primary" id="btn-pdf" href="{{ url_for('pdf', cv_id=cv.id) }}">⬇ Download PDF</a>
+{% endblock %}
+{% block content %}
+<div class="editor">
+  <div class="form-pane" id="form"></div>
+  <div class="preview-pane">
+    <div class="preview-head">
+      <span class="muted small">Preview (A4) · diperbarui otomatis setelah tersimpan</span>
+      <span class="zoom">
+        <button class="btn sm" data-zoom="-1">−</button>
+        <button class="btn sm" data-zoom="1">+</button>
+      </span>
+    </div>
+    <div class="preview-scroll"><iframe id="preview" src="{{ url_for('preview', cv_id=cv.id) }}"></iframe></div>
+  </div>
+</div>
+<script>
+  window.CV = {{ {"id": cv.id, "name": cv.name, "template": cv.template, "lang": cv.lang,
+                 "accent": cv.accent, "data": cv.data} | tojson }};
+  window.SCHEMA = {{ schema | tojson }};
+  window.ACCENTS = {{ accents | tojson }};
+  window.HAS_PHOTO = {{ has_photo | tojson }};
+  window.URLS = {
+    save: {{ url_for('api_save', cv_id=cv.id) | tojson }},
+    preview: {{ url_for('preview', cv_id=cv.id) | tojson }},
+    photo: {{ url_for('photo_get', cv_id=cv.id) | tojson }},
+    photoUpload: {{ url_for('photo_upload', cv_id=cv.id) | tojson }},
+    photoDelete: {{ url_for('photo_delete', cv_id=cv.id) | tojson }},
+  };
+</script>
+<script src="{{ url_for('static', filename='editor.js') }}"></script>
+{% endblock %}

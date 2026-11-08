@@ -1,0 +1,4 @@
+# Alternatif tanpa conda (butuh pango: `brew install pango`)
+flask>=3.1,<4
+weasyprint>=69,<70
+pillow>=10

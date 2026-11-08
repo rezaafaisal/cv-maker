@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}CV Maker{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+<link rel="icon" href="data:,">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+<nav class="topbar">
+  <a href="{{ url_for('index') }}" class="brand">CV&nbsp;Maker</a>
+  <div class="topbar-extra">{% block topbar %}{% endblock %}</div>
+</nav>
+{% with msgs = get_flashed_messages(with_categories=true) %}
+  {% if msgs %}<div class="flashes">{% for cat, m in msgs %}<div class="flash {{ cat }}">{{ m }}</div>{% endfor %}</div>{% endif %}
+{% endwith %}
+{% block content %}{% endblock %}
+</body>
+</html>

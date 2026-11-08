@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+<meta charset="utf-8">
+<title>CV - {{ p.name }}</title>
+<meta name="author" content="{{ p.name }}">
+{% set side_types = ['skills', 'languages'] %}
+<style>
+  /* Sidebar = kotak solid ber-posisi fixed (diulang di setiap halaman PDF).
+     Sengaja tidak memakai gradient/background @page: banyak viewer PDF HP salah merendernya. */
+  @page { size: A4; margin: 12mm 0 12mm 0; }
+  .side-bg { position: fixed; z-index: -1; left: 0; top: -12mm; bottom: -12mm; width: 68mm;
+             background: {{ accent }}; }
+
+  * { box-sizing: border-box; }
+  html { font-family: "Helvetica Neue", Helvetica, Arial, "Liberation Sans", sans-serif;
+         font-size: 9.4pt; line-height: 1.4; color: #2b3138; }
+  body { margin: 0; }
+  @media screen {
+    .side-bg { display: none; }
+    html { background: #e9ecef; }
+    body { width: 210mm; min-height: 297mm; margin: 16px auto; box-shadow: 0 2px 12px rgba(0,0,0,.15);
+           background: linear-gradient(to right, {{ accent }} 0, {{ accent }} 68mm, #ffffff 68mm); }
+  }
+  a { color: inherit; text-decoration: none; }
+
+  .side { float: left; width: 68mm; padding: 2mm 7mm 0 8mm; color: #ffffff; }
+  .main { margin-left: 68mm; padding: 4mm 13mm 0 10mm; }
+  @media screen { .side { padding-top: 14mm; } .main { padding-top: 16mm; } }
+
+  /* ---- sidebar ---- */
+  .photo { width: 42mm; height: 42mm; border-radius: 50%; border: 1.4mm solid #ffffff;
+           margin: 0 auto 7mm; display: block; object-fit: cover; }
+  .side h3 { font-size: 10.5pt; letter-spacing: .14em; text-transform: uppercase; margin: 6mm 0 2.6mm;
+             padding-bottom: 1.4mm; border-bottom: .9pt solid rgba(255,255,255,.85); }
+  .side h3:first-of-type { margin-top: 0; }
+  .ci { display: flex; align-items: flex-start; gap: 2.6mm; margin-bottom: 2.2mm; font-size: 8.6pt;
+        word-break: break-word; }
+  .ci svg { width: 3.4mm; height: 3.4mm; flex: none; margin-top: .5mm; fill: #ffffff; }
+  .side .pair { margin-bottom: 1.8mm; font-size: 8.6pt; }
+  .side .pair b { display: block; font-size: 8.8pt; }
+  .side .pair span { opacity: .88; }
+  .side ul { margin: 0; padding-left: 4mm; font-size: 8.6pt; }
+  .side li { margin-bottom: 1mm; }
+  .side .extra { font-size: 8.6pt; margin-bottom: 1.6mm; }
+  .side .extra b { display: block; }
+
+  /* ---- main ---- */
+  h1 { font-size: 23pt; line-height: 1.08; margin: 0; color: #2f3439; letter-spacing: .01em; }
+  .headline { font-size: 11pt; color: {{ accent }}; margin-top: 1.6mm; font-weight: 600; letter-spacing: .02em; }
+  .main h2 { font-size: 11pt; letter-spacing: .14em; text-transform: uppercase; color: {{ accent }};
+             margin: 6mm 0 2.4mm; padding-bottom: 1.2mm; border-bottom: 1.1pt solid {{ accent }};
+             break-after: avoid; }
+  table.details { border-collapse: collapse; font-size: 9.2pt; }
+  table.details td { padding: .5mm 0; vertical-align: top; }
+  table.details td.k { font-weight: 700; padding-right: 3mm; white-space: nowrap; color: #3a4047; }
+
+  .entry { margin-bottom: 3.2mm; break-inside: avoid; position: relative; padding-left: 4mm; }
+  .entry::before { content: ""; position: absolute; left: 0; top: 1.6mm; width: 1.6mm; height: 1.6mm;
+                   border-radius: 50%; background: {{ accent }}; }
+  .row { display: flex; justify-content: space-between; align-items: baseline; gap: 4mm; }
+  .row .t { font-weight: 700; color: #262b30; }
+  .date { white-space: nowrap; font-size: 8.6pt; font-weight: 700; color: #5a636c; }
+  .org { color: #4b545d; }
+  .sub { font-size: 8.5pt; color: #6b747d; font-style: italic; }
+  ul { margin: .8mm 0 0; padding-left: 4.4mm; }
+  .main li { margin-bottom: .5mm; }
+  p { margin: 0 0 1.4mm; text-align: justify; }
+  .compact .entry { margin-bottom: 1.8mm; }
+  .main .pairs div { margin-bottom: .7mm; }
+</style>
+</head>
+<body>
+
+{% macro icon(name) -%}
+{%- if name == 'phone' -%}
+<svg viewBox="0 0 24 24" fill="#ffffff"><path fill="#ffffff" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg>
+{%- elif name == 'mail' -%}
+<svg viewBox="0 0 24 24" fill="#ffffff"><path fill="#ffffff" d="M20 4H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+{%- elif name == 'pin' -%}
+<svg viewBox="0 0 24 24" fill="#ffffff"><path fill="#ffffff" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+{%- else -%}
+<svg viewBox="0 0 24 24" fill="#ffffff"><path fill="#ffffff" d="M3.9 12a3.1 3.1 0 0 1 3.1-3.1h4V7H7a5 5 0 0 0 0 10h4v-1.9H7A3.1 3.1 0 0 1 3.9 12zM8 13h8v-2H8v2zm9-6h-4v1.9h4a3.1 3.1 0 0 1 0 6.2h-4V17h4a5 5 0 0 0 0-10z"/></svg>
+{%- endif -%}
+{%- endmacro %}
+
+{% macro entries(s) %}
+  {% for it in s.rows %}
+  {% set r = period(it) %}
+  {% set sub = [it.location, it.meta] | select | list %}
+  <div class="entry">
+    <div class="row">
+      <div class="t">{{ it.title or it.subtitle }}</div>
+      {% if r %}<div class="date">{{ r }}</div>{% endif %}
+    </div>
+    {% if it.title and it.subtitle %}<div class="org">{{ it.subtitle }}</div>{% endif %}
+    {% if sub or it.link %}
+    <div class="sub">{{ sub | join(' · ') }}{% if it.link %}{% if sub %} · {% endif %}<a href="{{ href(it.link) }}">{{ pretty_url(it.link) }}</a>{% endif %}</div>
+    {% endif %}
+    {% set bl = bullets(it.bullets) %}
+    {% if bl %}<ul>{% for b in bl %}<li>{{ b }}</li>{% endfor %}</ul>{% endif %}
+  </div>
+  {% endfor %}
+{% endmacro %}
+
+<div class="side-bg"></div>
+<aside class="side">
+  {% if photo %}<img class="photo" src="{{ photo }}" alt="">{% endif %}
+
+  {% if contacts %}
+  <h3>{{ L.contact }}</h3>
+  {% for ic, text, link in contacts %}
+  <div class="ci">{{ icon(ic) }}<span>{% if link %}<a href="{{ link }}">{{ text }}</a>{% else %}{{ text }}{% endif %}</span></div>
+  {% endfor %}
+  {% for e in extra_info %}
+  <div class="extra">{% if e.label %}<b>{{ e.label }}</b>{% endif %}{{ e.value }}</div>
+  {% endfor %}
+  {% endif %}
+
+  {% for s in sections if s.type in side_types %}
+  <h3>{{ s.title }}</h3>
+  {% if s.type == 'skills' %}
+    {% if s.rows | selectattr('label') | list %}
+      {% for it in s.rows %}
+      <div class="pair">{% if it.label %}<b>{{ it.label }}</b>{% endif %}<span>{{ it.value }}</span></div>
+      {% endfor %}
+    {% else %}
+      <ul>{% for it in s.rows %}{% for v in it.value.split(',') if v.strip() %}<li>{{ v.strip() }}</li>{% endfor %}{% endfor %}</ul>
+    {% endif %}
+  {% else %}
+    {% for it in s.rows %}
+    <div class="pair"><b>{{ it.label }}</b>{% if it.value %}<span>{{ it.value }}</span>{% endif %}</div>
+    {% endfor %}
+  {% endif %}
+  {% endfor %}
+</aside>
+
+<main class="main">
+  <h1>{{ p.name }}</h1>
+  {% if p.headline %}<div class="headline">{{ p.headline }}</div>{% endif %}
+
+  {% if details %}
+  <h2>{{ L.personal_details }}</h2>
+  <table class="details">
+    {% for k, v in details %}<tr><td class="k">{{ k }}</td><td>: {{ v }}</td></tr>{% endfor %}
+  </table>
+  {% endif %}
+
+  {% for s in sections if s.type not in side_types %}
+  <section class="{{ s.kind }}{% if s.compact %} compact{% endif %}">
+    <h2>{{ s.title }}</h2>
+    {% if s.kind == 'text' %}
+      {% for para in paragraphs(s.text) %}<p>{{ para }}</p>{% endfor %}
+    {% elif s.kind == 'pairs' %}
+      {% for it in s.rows %}<div>{% if it.label %}<b>{{ it.label }}:</b> {% endif %}{{ it.value }}</div>{% endfor %}
+    {% else %}
+      {{ entries(s) }}
+    {% endif %}
+  </section>
+  {% endfor %}
+</main>
+
+</body>
+</html>

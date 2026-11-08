@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Riwayat · {{ cv.name }}{% endblock %}
+{% block content %}
+<main class="container">
+  <p><a href="{{ url_for('editor', cv_id=cv.id) }}">← Kembali ke editor</a></p>
+  <section class="card">
+    <h2>Riwayat versi: {{ cv.name }}</h2>
+    <p class="muted">Snapshot dibuat otomatis setiap kali PDF di-generate (jika isinya berubah).
+      Anda bisa download ulang PDF versi lama atau memulihkannya ke editor.</p>
+    {% if versions %}
+    <table class="list">
+      <thead><tr><th>#</th><th>Waktu</th><th>Template</th><th>Bahasa</th><th>Catatan</th><th></th></tr></thead>
+      <tbody>
+      {% for v in versions %}
+      <tr>
+        <td>{{ v.id }}</td>
+        <td>{{ v.created_at.replace('T', ' ') }}</td>
+        <td><span class="tag">{{ v.template|upper }}</span></td>
+        <td><span class="tag">{{ v.lang|upper }}</span></td>
+        <td class="small">{{ v.note or '' }}</td>
+        <td class="actions">
+          <a class="btn sm" target="_blank" href="{{ url_for('preview', cv_id=cv.id, version=v.id) }}">Lihat</a>
+          <a class="btn sm" href="{{ url_for('version_pdf', cv_id=cv.id, vid=v.id) }}">PDF</a>
+          <form method="post" action="{{ url_for('version_restore', cv_id=cv.id, vid=v.id) }}"
+                onsubmit="return confirm('Pulihkan CV ke versi #{{ v.id }}? Isi saat ini akan disimpan dulu ke riwayat.')">
+            <button class="btn sm">Pulihkan</button></form>
+          <form method="post" action="{{ url_for('version_delete', cv_id=cv.id, vid=v.id) }}"
+                onsubmit="return confirm('Hapus versi #{{ v.id }}?')"><button class="btn sm danger">Hapus</button></form>
+        </td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p class="muted">Belum ada riwayat. Riwayat tercatat saat Anda menekan <b>Download PDF</b>.</p>
+    {% endif %}
+  </section>
+</main>
+{% endblock %}

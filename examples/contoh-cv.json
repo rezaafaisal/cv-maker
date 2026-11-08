@@ -1,0 +1,71 @@
+{
+  "cv_maker_export": 1,
+  "name": "Contoh - Budi Santoso",
+  "template": "ats",
+  "lang": "id",
+  "accent": "#1f3a5f",
+  "photo_base64": null,
+  "data": {
+    "personal": {
+      "name": "Budi Santoso",
+      "headline": "Backend Engineer | Python · Go · Cloud",
+      "email": "budi.santoso@example.com",
+      "phone": "+62 812-3456-7890",
+      "location": "Makassar, Sulawesi Selatan",
+      "linkedin": "linkedin.com/in/budisantoso",
+      "website": "",
+      "github": "github.com/budisantoso"
+    },
+    "extra_info": [
+      {"label": "Ketersediaan", "value": "1 bulan pemberitahuan"},
+      {"label": "SIM", "value": "A, C"}
+    ],
+    "details": {
+      "birth_place": "Makassar",
+      "birth_date": "1997-08-24",
+      "gender": "Laki-laki",
+      "marital_status": "Belum Kawin",
+      "religion": "",
+      "nationality": "Indonesia",
+      "height_weight": ""
+    },
+    "sections": [
+      {"id": "s1", "type": "summary", "title": "", "enabled": true,
+       "text": "Backend Engineer dengan pengalaman 4+ tahun membangun REST API, sistem pembayaran, dan layanan berbasis event menggunakan Python dan Go. Terbiasa bekerja dari tahap desain arsitektur hingga deployment dan monitoring di cloud."},
+      {"id": "s2", "type": "experience", "title": "", "enabled": true, "items": [
+        {"title": "Backend Engineer", "subtitle": "PT Nusantara Digital", "location": "Jakarta (Remote)",
+         "start": "2023-03", "end": "", "current": true,
+         "bullets": "Merancang ulang layanan pembayaran sehingga latensi p95 turun 45%.\nMembangun pipeline event dengan Kafka untuk 2 juta transaksi/hari.\nMementori 3 engineer junior dan memimpin code review."},
+        {"title": "Software Engineer", "subtitle": "CV Maju Bersama", "location": "Makassar",
+         "start": "2020-07", "end": "2023-02", "current": false,
+         "bullets": "Mengembangkan sistem kasir (POS) untuk 40+ outlet.\nMengotomasi laporan harian sehingga menghemat ±10 jam kerja per minggu."}
+      ]},
+      {"id": "s3", "type": "projects", "title": "", "enabled": true, "items": [
+        {"title": "Sistem Antrian Klinik", "subtitle": "Full-Stack Developer", "meta": "FastAPI, PostgreSQL, Vue",
+         "link": "github.com/budisantoso/antrian", "start": "2022", "end": "",
+         "bullets": "Aplikasi antrian online yang dipakai 5 klinik dengan ±600 pasien/hari."}
+      ]},
+      {"id": "s4", "type": "education", "title": "", "enabled": true, "items": [
+        {"title": "S1 Teknik Informatika", "subtitle": "Universitas Hasanuddin", "location": "Makassar",
+         "meta": "IPK 3,65 / 4,00", "start": "2015", "end": "2019",
+         "bullets": "Skripsi: Deteksi Penyakit Daun Padi Menggunakan CNN."}
+      ]},
+      {"id": "s5", "type": "skills", "title": "", "enabled": true, "items": [
+        {"label": "Bahasa Pemrograman", "value": "Python, Go, SQL, TypeScript"},
+        {"label": "Framework", "value": "FastAPI, Django, Gin, React"},
+        {"label": "DevOps & Tools", "value": "Docker, Kubernetes, AWS, Git, Linux"}
+      ]},
+      {"id": "s6", "type": "certifications", "title": "", "enabled": true, "items": [
+        {"title": "AWS Certified Developer – Associate", "subtitle": "Amazon Web Services", "end": "2024-05"},
+        {"title": "Google Data Analytics", "subtitle": "Coursera", "end": "2022"}
+      ]},
+      {"id": "s7", "type": "organizations", "title": "", "enabled": true, "items": []},
+      {"id": "s8", "type": "awards", "title": "", "enabled": true, "items": []},
+      {"id": "s9", "type": "languages", "title": "", "enabled": true, "items": [
+        {"label": "Indonesia", "value": "Native"},
+        {"label": "Inggris", "value": "Profesional (B2)"}
+      ]},
+      {"id": "s10", "type": "references", "title": "", "enabled": true, "items": []}
+    ]
+  }
+}

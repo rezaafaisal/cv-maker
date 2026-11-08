@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="container">
+  <div class="grid-2">
+    <section class="card" id="buat-baru">
+      <h2>Buat CV Baru</h2>
+      <form method="post" action="{{ url_for('cv_new') }}" class="stack">
+        <label>Nama Lengkap (pemilik CV)
+          <input name="person" placeholder="mis. Budi Santoso" autofocus>
+        </label>
+        <label>Label CV <small>(internal, untuk membedakan versi)</small>
+          <input name="name" placeholder="mis. Budi - Lamaran Backend Dev">
+        </label>
+        <div class="row-2">
+          <label>Template
+            <select name="template">
+              <option value="ats">ATS (1 kolom, tanpa foto)</option>
+              <option value="modern">Modern (sidebar + foto)</option>
+            </select>
+          </label>
+          <label>Bahasa CV
+            <select name="lang">
+              <option value="id">Indonesia</option>
+              <option value="en">English</option>
+            </select>
+          </label>
+        </div>
+        <button class="btn primary">Buat &amp; mulai isi data →</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Import CV dari JSON</h2>
+      <p class="muted">Gunakan file hasil tombol <b>Export JSON</b> (backup), atau contoh di
+        <code>examples/contoh-cv.json</code>.</p>
+      <form method="post" action="{{ url_for('import_json') }}" enctype="multipart/form-data" class="stack">
+        <input type="file" name="file" accept=".json,application/json" required>
+        <button class="btn">Import</button>
+      </form>
+    </section>
+  </div>
+
+  <section class="card">
+    <h2>Daftar CV <span class="muted">({{ cvs|length }})</span></h2>
+    {% if cvs %}
+    <table class="list">
+      <thead><tr><th>Label</th><th>Nama</th><th>Template</th><th>Bahasa</th><th>Riwayat</th><th>Diubah</th><th></th></tr></thead>
+      <tbody>
+      {% for c in cvs %}
+        <tr>
+          <td><a href="{{ url_for('editor', cv_id=c.id) }}"><b>{{ c.name }}</b></a></td>
+          <td>{{ c.person or '—' }}<div class="muted small">{{ c.headline or '' }}</div></td>
+          <td><span class="tag">{{ c.template|upper }}</span></td>
+          <td><span class="tag">{{ c.lang|upper }}</span></td>
+          <td><a href="{{ url_for('versions', cv_id=c.id) }}">{{ c.versions }} versi</a></td>
+          <td class="small">{{ c.updated_at.replace('T', ' ') }}</td>
+          <td class="actions">
+            <a class="btn sm" href="{{ url_for('editor', cv_id=c.id) }}">Edit</a>
+            <a class="btn sm" href="{{ url_for('pdf', cv_id=c.id) }}">PDF</a>
+            <form method="post" action="{{ url_for('duplicate', cv_id=c.id) }}"><button class="btn sm">Duplikat</button></form>
+            <form method="post" action="{{ url_for('delete', cv_id=c.id) }}"
+                  onsubmit="return confirm('Hapus CV ini beserta seluruh riwayatnya?')">
+              <button class="btn sm danger">Hapus</button></form>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p class="muted">Belum ada CV. Buat baru di atas atau import <code>examples/contoh-cv.json</code> untuk melihat contoh.</p>
+    {% endif %}
+  </section>
+</main>
+{% endblock %}

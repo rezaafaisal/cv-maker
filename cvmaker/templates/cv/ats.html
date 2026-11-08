@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+<meta charset="utf-8">
+<title>CV - {{ p.name }}</title>
+<meta name="author" content="{{ p.name }}">
+<style>
+  @page {
+    size: A4;
+    margin: 15mm 17mm 15mm 17mm;
+    @bottom-right {
+      content: counter(page) " / " counter(pages);
+      font: 7.5pt "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color: #9aa3ad;
+    }
+  }
+  @page :first { @bottom-right { content: none; } }
+
+  * { box-sizing: border-box; }
+  html { font-family: "Helvetica Neue", Helvetica, Arial, "Liberation Sans", sans-serif;
+         font-size: 9.6pt; line-height: 1.38; color: #1d232a; }
+  body { margin: 0; }
+  @media screen {
+    html { background: #e9ecef; }
+    body { width: 210mm; min-height: 297mm; margin: 16px auto; background: #fff;
+           padding: 15mm 17mm; box-shadow: 0 2px 12px rgba(0,0,0,.15); }
+  }
+  a { color: inherit; text-decoration: none; }
+
+  header { text-align: center; margin-bottom: 4mm; }
+  h1 { font-size: 21pt; letter-spacing: .04em; margin: 0; color: {{ accent }};
+       text-transform: uppercase; line-height: 1.1; }
+  .headline { font-size: 10.5pt; color: #4a5560; margin-top: 1.2mm; }
+  .contact, .extra { font-size: 8.8pt; color: #333c45; margin-top: 1.2mm; }
+  .sep { color: #a8b0b8; padding: 0 1.6mm; }
+
+  section { margin-top: 3.6mm; }
+  h2 { font-size: 10.2pt; text-transform: uppercase; letter-spacing: .06em; color: {{ accent }};
+       margin: 0 0 1.8mm; padding-bottom: .8mm; border-bottom: 1.1pt solid {{ accent }};
+       break-after: avoid; }
+
+  .entry { margin-bottom: 2.6mm; break-inside: avoid; }
+  .entry:last-child { margin-bottom: 0; }
+  .row { display: flex; justify-content: space-between; align-items: baseline; gap: 4mm; }
+  .row .main { font-weight: 700; }
+  .row .main .org { font-weight: 400; }
+  .date { white-space: nowrap; font-size: 8.8pt; color: #333c45; font-weight: 700; }
+  .sub { font-size: 8.8pt; color: #56616b; font-style: italic; }
+  ul { margin: .8mm 0 0; padding-left: 4.6mm; }
+  li { margin-bottom: .5mm; padding-left: .6mm; }
+  p { margin: 0 0 1.4mm; text-align: justify; }
+  p:last-child { margin-bottom: 0; }
+
+  .compact .entry { margin-bottom: 1.4mm; }
+  .pairs div { margin-bottom: .7mm; }
+  .pairs b { font-weight: 700; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>{{ p.name }}</h1>
+  {% if p.headline %}<div class="headline">{{ p.headline }}</div>{% endif %}
+  {% if contacts %}
+  <div class="contact">
+    {% for icon, text, link in contacts %}{% if not loop.first %}<span class="sep">|</span>{% endif %}{% if link %}<a href="{{ link }}">{{ text }}</a>{% else %}{{ text }}{% endif %}{% endfor %}
+  </div>
+  {% endif %}
+  {% if extra_info %}
+  <div class="extra">
+    {% for e in extra_info %}{% if not loop.first %}<span class="sep">|</span>{% endif %}{% if e.label %}{{ e.label }}: {% endif %}{{ e.value }}{% endfor %}
+  </div>
+  {% endif %}
+</header>
+
+{% for s in sections %}
+<section class="{{ s.kind }}{% if s.compact %} compact{% endif %}">
+  <h2>{{ s.title }}</h2>
+
+  {% if s.kind == 'text' %}
+    {% for para in paragraphs(s.text) %}<p>{{ para }}</p>{% endfor %}
+
+  {% elif s.kind == 'pairs' %}
+    {% if s.inline %}
+      <div>{% for it in s.rows %}{% if not loop.first %}<span class="sep">|</span>{% endif %}{% if it.label %}<b>{{ it.label }}</b>{% if it.value %}: {% endif %}{% endif %}{{ it.value }}{% endfor %}</div>
+    {% else %}
+      {% for it in s.rows %}
+      <div>{% if it.label %}<b>{{ it.label }}:</b> {% endif %}{{ it.value }}</div>
+      {% endfor %}
+    {% endif %}
+
+  {% else %}
+    {% for it in s.rows %}
+    {% set r = period(it) %}
+    {% set sub = [it.location, it.meta] | select | list %}
+    <div class="entry">
+      <div class="row">
+        <div class="main">{{ it.title }}{% if it.title and it.subtitle %}<span class="sep">|</span>{% endif %}<span class="org">{{ it.subtitle }}</span></div>
+        {% if r %}<div class="date">{{ r }}</div>{% endif %}
+      </div>
+      {% if sub or it.link %}
+      <div class="sub">{{ sub | join(' · ') }}{% if it.link %}{% if sub %} · {% endif %}<a href="{{ href(it.link) }}">{{ pretty_url(it.link) }}</a>{% endif %}</div>
+      {% endif %}
+      {% set bl = bullets(it.bullets) %}
+      {% if bl %}<ul>{% for b in bl %}<li>{{ b }}</li>{% endfor %}</ul>{% endif %}
+    </div>
+    {% endfor %}
+  {% endif %}
+</section>
+{% endfor %}
+
+</body>
+</html>

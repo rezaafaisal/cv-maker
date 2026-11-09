@@ -6,7 +6,8 @@ ready-to-send PDF. Everything is stored in SQLite, so a CV can be updated and re
 - **2 templates**
   - **ATS**: single column, no photo, icons, or tables, so the text is read cleanly by applicant tracking systems.
   - **Modern**: colored sidebar, round photo, and personal details.
-- **CV language**: Indonesian / English. Section titles, month names, and "Sekarang/Present" switch automatically.
+- **CV language**: Indonesian / English / Japanese (日本語). Section titles, date formats (e.g. `2024年4月 〜 現在`),
+  and labels switch automatically. Japanese fonts are embedded in the PDF and the text stays selectable, so it scans cleanly in ATS.
 - **Sections**: Summary, Work Experience, Projects, Education, Skills, Certifications, Organizations,
   Awards, Languages, References, plus **custom sections** with any title.
   Every section can be hidden, reordered, and renamed. Empty sections are not printed.
@@ -58,7 +59,7 @@ Restart the server after pulling code changes. (Templates reload automatically, 
 5. **Simpan & CV Baru** (Save & New CV) saves the current CV and jumps straight to the new-CV form.
 
 For another friend or another job application: use **Duplikat** (Duplicate) and adjust what you need, with no retyping.
-To try it out quickly: **Import** the file `examples/contoh-cv.json`.
+To try it out quickly: **Import** `examples/contoh-cv.json` (Indonesian) or `examples/contoh-cv-ja.json` (Japanese).
 
 ## Data locations
 

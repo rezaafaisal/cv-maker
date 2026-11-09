@@ -175,7 +175,7 @@
           segmented([["ats", "ATS (tanpa foto)"], ["modern", "Modern (foto)"]], cv.template,
             (v) => { cv.template = v; structural(); })),
         h("div", { class: "field" }, h("span", { class: "lbl" }, "Bahasa CV"),
-          segmented([["id", "Indonesia"], ["en", "English"]], cv.lang, (v) => { cv.lang = v; structural(); }))),
+          segmented([["id", "Indonesia"], ["en", "English"], ["ja", "日本語"]], cv.lang, (v) => { cv.lang = v; structural(); }))),
       h("div", { class: "field" }, h("span", { class: "lbl" }, "Warna aksen"), swatches),
       h("div", { class: "field" }, h("span", { class: "lbl" }, "Foto"), photoBox),
     ));
@@ -315,7 +315,7 @@
         : def.kind === "pairs" ? renderPairs(sec) : renderEntries(sec);
       body = h("div", { class: "sec-body" },
         field(sec, "title", { label: sec.type === "custom" ? "Judul section *" : "Judul custom (opsional)",
-          placeholder: `Default: ${def.title.id} / ${def.title.en}`,
+          placeholder: `Default: ${def.title.id} / ${def.title.en} / ${def.title.ja}`,
           onInput: (e) => { titleEl.textContent = e.target.value.trim() || def.title[cv.lang]; } }),
         kindBody);
     }

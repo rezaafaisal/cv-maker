@@ -1,0 +1,183 @@
+{
+  "cv_maker_export": 1,
+  "name": "見本 - 山田太郎",
+  "template": "ats",
+  "lang": "ja",
+  "accent": "#1f3a5f",
+  "photo_base64": null,
+  "data": {
+    "personal": {
+      "name": "山田 太郎",
+      "headline": "バックエンドエンジニア | Python · Go · クラウド",
+      "email": "budi.santoso@example.com",
+      "phone": "+62 812-3456-7890",
+      "location": "愛知県名古屋市",
+      "linkedin": "linkedin.com/in/budisantoso",
+      "website": "",
+      "github": "github.com/budisantoso"
+    },
+    "extra_info": [
+      {
+        "label": "在留資格",
+        "value": "技術・人文知識・国際業務(2029年5月まで)"
+      },
+      {
+        "label": "入社可能時期",
+        "value": "1〜2か月後"
+      }
+    ],
+    "details": {
+      "birth_place": "愛知県",
+      "birth_date": "1997-08-24",
+      "gender": "男性",
+      "marital_status": "未婚",
+      "religion": "",
+      "nationality": "インドネシア",
+      "height_weight": ""
+    },
+    "sections": [
+      {
+        "id": "s1",
+        "type": "summary",
+        "title": "",
+        "enabled": true,
+        "text": "Python と Go を用いたバックエンド開発に4年以上従事。REST API、決済システム、イベント駆動型サービスの設計から運用までを担当。チーム内でのコードレビューや後輩の育成にも注力してきました。"
+      },
+      {
+        "id": "s2",
+        "type": "experience",
+        "title": "",
+        "enabled": true,
+        "items": [
+          {
+            "title": "バックエンドエンジニア",
+            "subtitle": "株式会社ヌサンタラ・デジタル",
+            "location": "東京(リモート)",
+            "start": "2023-03",
+            "end": "",
+            "current": true,
+            "bullets": "決済サービスを再設計し、p95 レイテンシを45%削減。\nKafka を用いたイベント基盤を構築し、1日200万件の取引を処理。\n若手エンジニア3名のメンターとしてコードレビューを主導。"
+          },
+          {
+            "title": "ソフトウェアエンジニア",
+            "subtitle": "有限会社マジュ・ブルサマ",
+            "location": "マカッサル",
+            "start": "2020-07",
+            "end": "2023-02",
+            "current": false,
+            "bullets": "40店舗以上で稼働するPOSシステムを開発。\n日次レポートを自動化し、週あたり約10時間の工数を削減。"
+          }
+        ]
+      },
+      {
+        "id": "s3",
+        "type": "projects",
+        "title": "",
+        "enabled": true,
+        "items": [
+          {
+            "title": "Sistem Antrian Klinik",
+            "subtitle": "Full-Stack Developer",
+            "meta": "FastAPI, PostgreSQL, Vue",
+            "link": "github.com/budisantoso/antrian",
+            "start": "2022",
+            "end": "",
+            "bullets": "Aplikasi antrian online yang dipakai 5 klinik dengan ±600 pasien/hari."
+          }
+        ]
+      },
+      {
+        "id": "s4",
+        "type": "education",
+        "title": "",
+        "enabled": true,
+        "items": [
+          {
+            "title": "情報工学 学士",
+            "subtitle": "ハサヌディン大学",
+            "location": "マカッサル",
+            "meta": "GPA 3.65 / 4.00",
+            "start": "2015",
+            "end": "2019",
+            "bullets": "卒業研究:CNNによるイネ葉病害の検出"
+          }
+        ]
+      },
+      {
+        "id": "s5",
+        "type": "skills",
+        "title": "",
+        "enabled": true,
+        "items": [
+          {
+            "label": "言語",
+            "value": "Python, Go, SQL, TypeScript"
+          },
+          {
+            "label": "ツール",
+            "value": "Docker, Kubernetes, AWS, Git"
+          }
+        ]
+      },
+      {
+        "id": "s6",
+        "type": "certifications",
+        "title": "",
+        "enabled": true,
+        "items": [
+          {
+            "title": "AWS Certified Developer – Associate",
+            "subtitle": "Amazon Web Services",
+            "end": "2024-05"
+          },
+          {
+            "title": "Google Data Analytics",
+            "subtitle": "Coursera",
+            "end": "2022"
+          }
+        ]
+      },
+      {
+        "id": "s7",
+        "type": "organizations",
+        "title": "",
+        "enabled": true,
+        "items": []
+      },
+      {
+        "id": "s8",
+        "type": "awards",
+        "title": "",
+        "enabled": true,
+        "items": []
+      },
+      {
+        "id": "s9",
+        "type": "languages",
+        "title": "",
+        "enabled": true,
+        "items": [
+          {
+            "label": "インドネシア語",
+            "value": "母語"
+          },
+          {
+            "label": "日本語",
+            "value": "日常会話(N3)"
+          },
+          {
+            "label": "英語",
+            "value": "ビジネスレベル(B2)"
+          }
+        ]
+      },
+      {
+        "id": "s10",
+        "type": "references",
+        "title": "",
+        "enabled": true,
+        "items": []
+      }
+    ]
+  }
+}
